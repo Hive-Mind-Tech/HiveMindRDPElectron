@@ -33,8 +33,8 @@ module.exports = {
       name: '@electron-forge/publisher-github',
       config: {
         repository: {
-          owner: 'Hive Mind A.S.',
-          name: 'Hive Mind RDP Service'
+          owner: 'kerembay9',
+          name: 'HiveMindRDPElectron'
         },
         prerelease: true,
         authToken: process.env.GITHUB_TOKEN

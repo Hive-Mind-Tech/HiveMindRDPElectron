@@ -1,6 +1,6 @@
 {
   "name": "hivemindrdp",
-  "author":"HIVE MIND", 
+  "author": "HIVE MIND",
   "version": "1.0.0",
   "description": "Hivemind RDP project for remote controlling desktop from mobile-desktop",
   "main": "main.js",
