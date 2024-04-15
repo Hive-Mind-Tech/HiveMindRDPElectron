@@ -107,10 +107,9 @@ app.on('ready', () => {
     dialog.showMessageBox({
         type: 'info',
         title: '',
-        message: `Checking for updates. Current version ${app.getVersion()}`,
+        message: `Checking for other updates. Current version ${app.getVersion()}`,
         buttons: ['OK']
       });
-    console.log('hi')
 })
 /*New Update Available*/
 autoUpdater.on("update-available", (info) => {

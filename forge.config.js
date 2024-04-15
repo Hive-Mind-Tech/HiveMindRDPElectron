@@ -27,14 +27,5 @@ module.exports = {
       name: '@electron-forge/plugin-auto-unpack-natives',
       config: {},
     },
-  ],
-  publishers: [
-    {
-      name: '@electron-forge/publisher-s3',
-      config: {
-        bucket: 'my-bucket',
-        public: true
-      }
-    }
   ]
 };
