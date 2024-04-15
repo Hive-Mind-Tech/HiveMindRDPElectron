@@ -1,6 +1,6 @@
 {
   "name": "hivemindrdp",
-  "author": "HIVE MIND",
+  "author": "kerembay9",
   "version": "1.0.0",
   "description": "Hivemind RDP project for remote controlling desktop from mobile-desktop",
   "main": "main.js",
@@ -22,8 +22,25 @@
     "publish": "electron-forge publish"
   },
   "dependencies": {
+    "electron-builder": "^24.13.3",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^6.1.8",
     "robotjs": "^0.6.0",
     "socket.io-client": "^4.7.4"
+  },
+  "repository": "https://github.com/kerembay9/HiveMindRDPElectron",
+  "publish": {
+    "provider": "github",
+    "releaseType": "release"
+  },
+  "build": {
+    "appId": "com.hivemind.webrdp",
+    "productName": "Autoupdater app",
+    "win": {
+      "target": "nsis"
+    },
+    "directories": {
+      "output": "dist"
+    }
   }
 }

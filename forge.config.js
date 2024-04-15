@@ -30,14 +30,10 @@ module.exports = {
   ],
   publishers: [
     {
-      name: '@electron-forge/publisher-github',
+      name: '@electron-forge/publisher-s3',
       config: {
-        repository: {
-          owner: 'kerembay9',
-          name: 'HiveMindRDPElectron'
-        },
-        prerelease: true,
-        authToken: process.env.GITHUB_TOKEN
+        bucket: 'my-bucket',
+        public: true
       }
     }
   ]
