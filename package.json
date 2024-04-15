@@ -13,14 +13,13 @@
     "@electron-forge/maker-zip": "^7.2.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
     "@electron-forge/publisher-github": "^7.4.0",
+    "@electron/notarize": "^2.3.0",
     "electron": "^28.2.1",
     "electron-builder": "^24.13.3"
   },
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "start": "electron .",
+    "distwin": "electron-builder --win -p always",
     "dist": "electron-builder"
   },
   "dependencies": {
@@ -36,7 +35,7 @@
   },
   "build": {
     "appId": "com.hivemind.webrdp",
-    "productName": "Autoupdater app",
+    "productName": "HiveMind RDP",
     "win": {
       "target": "nsis"
     },

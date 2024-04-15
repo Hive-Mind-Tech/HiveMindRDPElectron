@@ -5,12 +5,10 @@ const {
     ipcMain,
     Menu,
     screen,
-    dialog,
 } = require('electron');
 const path = require('path');
 const robot = require('robotjs');
 const { io } = require("socket.io-client");
-const { autoUpdater, AppUpdater } = require("electron-updater");
 
 app.commandLine.appendSwitch ("disable-http-cache");
 let lastClickTime = new Date().getTime();
@@ -44,10 +42,10 @@ const createTray = () => {
                 { role: 'quit' }
             ]
         },
-        {
-            label: 'Screens',
-            submenu: screensMenu
-        }
+        // {
+        //     label: 'Screens',
+        //     submenu: screensMenu
+        // }
     ])
 
     Menu.setApplicationMenu(menu)
@@ -99,37 +97,10 @@ const createWindow = () => {
             createTray()
         })
     })
-    mainWindow.webContents.openDevTools()
 }
 app.on('ready', () => {
     createWindow()
-    autoUpdater.checkForUpdates();
-    dialog.showMessageBox({
-        type: 'info',
-        title: '',
-        message: `Checking for other updates. Current version ${app.getVersion()}`,
-        buttons: ['OK']
-      });
 })
-/*New Update Available*/
-autoUpdater.on("update-available", (info) => {
-    curWindow.showMessage(`Update available. Current version ${app.getVersion()}`);
-    let pth = autoUpdater.downloadUpdate();
-    curWindow.showMessage(pth);
-  });
-  
-  autoUpdater.on("update-not-available", (info) => {
-    curWindow.showMessage(`No update available. Current version ${app.getVersion()}`);
-  });
-  
-  /*Download Completion Message*/
-  autoUpdater.on("update-downloaded", (info) => {
-    curWindow.showMessage(`Update downloaded. Current version ${app.getVersion()}`);
-  });
-  
-  autoUpdater.on("error", (info) => {
-    curWindow.showMessage(info);
-  });
   
 const socket = io.connect('wss://hiverdp.sharencare.com.tr/', { transports: ['websocket'] });
 
