@@ -9,7 +9,12 @@ const {
 const path = require('path');
 const robot = require('robotjs');
 const { io } = require("socket.io-client");
+const socket = io.connect('wss://hiverdp.sharencare.com.tr/', { transports: ['websocket'] });
 
+socket.on('mouse_click', (coordinates) => {
+    console.log('coordinates are: ', coordinates)
+    handleMouseDown(coordinates)
+  })
 app.commandLine.appendSwitch ("disable-http-cache");
 let lastClickTime = new Date().getTime();
 let availableScreens
@@ -63,7 +68,6 @@ const createWindow = () => {
                 }
     })
     ipcMain.on('GET_SOURCE_ID', (event) => {
-        // console.log('hello world from main.js, available screens are: ', availableScreens);
         if (availableScreens){
             const mainScreen = screen.getPrimaryDisplay();
             const displaySize = mainScreen.size;
@@ -72,6 +76,9 @@ const createWindow = () => {
             dimension: displaySize,
             });
       }});
+    ipcMain.on('JOIN_ROOM', (_event,room_id) => {
+        socket.emit('join',room_id)
+    });
     ipcMain.on('set-size', (event, size) => {
         const { width, height } = size
         try {
@@ -97,28 +104,25 @@ const createWindow = () => {
             createTray()
         })
     })
+    mainWindow.webContents.openDevTools()
 }
 app.on('ready', () => {
     createWindow()
+    console.log('hi')
 })
   
-const socket = io.connect('wss://hiverdp.sharencare.com.tr/', { transports: ['websocket'] });
 
-socket.on('mouse_click', (coordinates) => {
-    console.log('coordinates are: ', coordinates)
-    handleMouseDown(coordinates)
-  })
 
 async function handleMouseDown(coordinates) {
     const currentTime = new Date().getTime();
     const timeSinceLastClick = currentTime - lastClickTime;
     if (timeSinceLastClick > 0 && timeSinceLastClick < 300) {
       console.log('Double click detected!');
-      await robot.moveMouseSmooth(coordinates.x, coordinates.y);
+      await robot.moveMouse(coordinates.x, coordinates.y);
       robot.mouseClick('left', true)
     } else {
       console.log('Single click detected!');
-      await robot.moveMouseSmooth(coordinates.x, coordinates.y);
+      await robot.moveMouse(coordinates.x, coordinates.y);
       robot.mouseClick('left', false)
     }
     lastClickTime = currentTime;
