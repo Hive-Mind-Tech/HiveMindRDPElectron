@@ -7,13 +7,13 @@ const {
     screen,
 } = require('electron');
 const path = require('path');
-const robot = require('robotjs');
+// const robot = require('robotjs');
 const { io } = require("socket.io-client");
 const socket = io.connect('wss://hiverdp.sharencare.com.tr/', { transports: ['websocket'] });
 
 socket.on('mouse_click', (coordinates) => {
     console.log('coordinates are: ', coordinates)
-    handleMouseDown(coordinates)
+    // handleMouseDown(coordinates)
   })
 app.commandLine.appendSwitch ("disable-http-cache");
 let lastClickTime = new Date().getTime();
@@ -113,19 +113,19 @@ app.on('ready', () => {
   
 
 
-async function handleMouseDown(coordinates) {
-    const currentTime = new Date().getTime();
-    const timeSinceLastClick = currentTime - lastClickTime;
-    if (timeSinceLastClick > 0 && timeSinceLastClick < 300) {
-      console.log('Double click detected!');
-      await robot.moveMouse(coordinates.x, coordinates.y);
-      robot.mouseClick('left', true)
-    } else {
-      console.log('Single click detected!');
-      await robot.moveMouse(coordinates.x, coordinates.y);
-      robot.mouseClick('left', false)
-    }
-    lastClickTime = currentTime;
-  }
+// async function handleMouseDown(coordinates) {
+//     const currentTime = new Date().getTime();
+//     const timeSinceLastClick = currentTime - lastClickTime;
+//     if (timeSinceLastClick > 0 && timeSinceLastClick < 300) {
+//       console.log('Double click detected!');
+//       await robot.moveMouse(coordinates.x, coordinates.y);
+//       robot.mouseClick('left', true)
+//     } else {
+//       console.log('Single click detected!');
+//       await robot.moveMouse(coordinates.x, coordinates.y);
+//       robot.mouseClick('left', false)
+//     }
+//     lastClickTime = currentTime;
+//   }
 
  

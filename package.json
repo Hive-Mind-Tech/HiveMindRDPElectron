@@ -22,7 +22,6 @@
     "dist": "electron-builder"
   },
   "dependencies": {
-    "robotjs": "^0.6.0",
     "socket.io-client": "^4.7.4"
   },
   "repository": "https://github.com/kerembay9/HiveMindRDPElectron",
