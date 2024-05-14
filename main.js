@@ -10,7 +10,7 @@ const { spawn } = require("child_process");
 const path = require("path");
 // const robot = require('robotjs');
 const { io } = require("socket.io-client");
-const socket = io.connect("wss://hiverdp.sharencare.com.tr/", {
+const socket = io.connect("wss://websocket.hm-rdp.com/", {
   transports: ["websocket"],
 });
 
