@@ -6,7 +6,7 @@ const {
   Menu,
   screen,
 } = require("electron");
-const { spawn } = require("child_process");
+const { execFile } = require("child_process");
 const path = require("path");
 // const robot = require('robotjs');
 const { io } = require("socket.io-client");
@@ -16,7 +16,7 @@ const socket = io.connect("wss://websocket.hm-rdp.com/", {
 
 socket.on("mouse_click", (coordinates) => {
   console.log("coordinates are: ", coordinates);
-  handleMouseDown(coordinates)
+  handleMouseDown(coordinates);
 });
 app.commandLine.appendSwitch("disable-http-cache");
 let lastClickTime = new Date().getTime();
@@ -94,9 +94,9 @@ const createWindow = () => {
   mainWindow.loadURL("https://www.aygen.hm-rdp.com/login", {
     extraHeaders: "pragma: no-cache\n",
   });
-    // mainWindow.loadURL("http://localhost:3000/login", {
-    //     extraHeaders: "pragma: no-cache\n",
-    // });
+  // mainWindow.loadURL("http://localhost:3000/login", {
+  //     extraHeaders: "pragma: no-cache\n",
+  // });
   mainWindow.once("ready-to-show", () => {
     displays = screen.getAllDisplays();
 
@@ -113,7 +113,7 @@ const createWindow = () => {
         createTray();
       });
   });
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 app.on("ready", () => {
   createWindow();
@@ -123,23 +123,29 @@ app.on("ready", () => {
 async function handleMouseDown(coordinates) {
   const currentTime = new Date().getTime();
   const timeSinceLastClick = currentTime - lastClickTime;
-  if (timeSinceLastClick > 0 && timeSinceLastClick < 300) {
-    console.log("Double click detected!");
-    const go = spawn("./click_go", [Math.round(coordinates.x), Math.round(coordinates.y), true]);
-    go.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
-    });
-    go.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-    });
-  } else {
-    const go = spawn("./click_go", [Math.round(coordinates.x), Math.round(coordinates.y), false]);
-    go.stdout.on("data", (data) => {
-      console.log(`stdout: ${data}`);
-    });
-    go.stderr.on("data", (data) => {
-      console.error(`stderr: ${data}`);
-    });
-  }
+
+  const args = [
+    Math.round(coordinates.x),
+    Math.round(coordinates.y),
+    timeSinceLastClick > 0 && timeSinceLastClick < 300,
+  ];
+  const developmentEnv = true;
+  const clickGoPath =
+    developmentEnv === true
+      ? path.join(__dirname, "bin", "click_go")
+      : path.join(process.resourcesPath, "bin", "click_go");
+  execFile(clickGoPath, args, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing click_go: ${error}`);
+      return;
+    }
+    if (stdout) {
+      console.log(`stdout: ${stdout}`);
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+    }
+  });
+
   lastClickTime = currentTime;
 }

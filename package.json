@@ -32,6 +32,7 @@
   "build": {
     "appId": "com.hivemind.webrdp",
     "productName": "HiveMind RDP",
+    "extraResources": ["./bin/click_go"],
     "win": {
       "target": "nsis"
     },
