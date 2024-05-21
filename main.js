@@ -129,7 +129,7 @@ async function handleMouseDown(coordinates) {
     Math.round(coordinates.y),
     timeSinceLastClick > 0 && timeSinceLastClick < 300,
   ];
-  const developmentEnv = true;
+  const developmentEnv = false;
   const clickGoPath =
     developmentEnv === true
       ? path.join(__dirname, "bin", "click_go")
